@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Person from './Person/Person';
+import ValidationComponent from './components/ValidationComponent';
+import CharComponent from './components/CharComponent';
 
 import './App.css';
 
@@ -10,7 +12,8 @@ class App extends Component {
           { id: 1, name: 'Cam', age: 26},
           { id: 2, name: 'Kaylyn', age: 21}
         ],
-        showPersons: true
+        showPersons: true,
+        userInput: ''
     };
       deletePersonHandler = (personIndex) => {
         const persons = [...this.state.persons];
@@ -34,6 +37,11 @@ class App extends Component {
       toggleHandler = () => {
         let toggle = this.state.showPersons;
         this.setState({ showPersons: !toggle})
+      }
+
+      inputChangeHandler = (event) => {
+        
+        this.setState({userInput: event.target.value})
       }
 
     render() {
@@ -63,11 +71,34 @@ class App extends Component {
           </div>
         ) 
       }
+      const deleteLetter = (index) => {
+        const text = this.state.userInput.split('');
+        text.splice(index, 1);
+        const newText = text.join('')
+        this.setState({userInput: newText})
+      }
+
+      const charList = this.state.userInput.split('').map((letter, index) => {
+        return <CharComponent 
+                key={index} letter={letter} 
+                clicked={() => deleteLetter(index)}/>
+      });
 
       return (
         <div className="App">
           <button style={styles} onClick={this.toggleHandler}>Show/Hide</button>
           {persons}
+          <label>Enter Text</label>
+          <input 
+          type="text"
+          value={this.state.userInput}
+          onChange={this.inputChangeHandler}
+          />
+          <p>{this.state.userInput}</p>
+          <ValidationComponent
+          inputLength={this.state.userInput.length}
+          />
+          {charList}
         </div>
       );
     }
