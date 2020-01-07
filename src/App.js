@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Radium from 'radium';
+import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person';
 import ValidationComponent from './components/ValidationComponent';
 import CharComponent from './components/CharComponent';
@@ -105,22 +105,24 @@ class App extends Component {
       
 
       return (
-        <div className="App">
-          <h1 className={classes.join(' ')}>Welcome</h1>
-          <button style={styles} onClick={this.toggleHandler}>Show/Hide</button>
-          {persons}
-          <label>Enter Text</label>
-          <input 
-          type="text"
-          value={this.state.userInput}
-          onChange={this.inputChangeHandler}
-          />
-          <p>{this.state.userInput}</p>
-          <ValidationComponent
-          inputLength={this.state.userInput.length}
-          />
-          {charList}
-        </div>
+        <StyleRoot>
+          <div className="App">
+            <h1 className={classes.join(' ')}>Welcome</h1>
+            <button style={styles} onClick={this.toggleHandler}>Show/Hide</button>
+            {persons}
+            <label>Enter Text</label>
+            <input 
+            type="text"
+            value={this.state.userInput}
+            onChange={this.inputChangeHandler}
+            />
+            <p>{this.state.userInput}</p>
+            <ValidationComponent
+            inputLength={this.state.userInput.length}
+            />
+            {charList}
+          </div>
+        </StyleRoot>
       );
     }
 }
