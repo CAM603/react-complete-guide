@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
-import Radium, { StyleRoot } from 'radium';
+import styled from 'styled-components';
 import Person from './Person/Person';
 import ValidationComponent from './components/ValidationComponent';
 import CharComponent from './components/CharComponent';
 
 import './App.css';
 
+const StyledButton = styled.button`
+        background-color: ${props => props.alt ? 'red' : 'green'};
+        color: white;
+        font: inherit;
+        border: 1px solid blue;
+        padding: 8px;
+        cursor: pointer;
+
+        &:hover: {
+          background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+          color: black;
+      }
+`;
 class App extends Component {
     state = {
         persons: [
@@ -46,19 +59,6 @@ class App extends Component {
       }
 
     render() {
-      const styles = {
-        backgroundColor: 'green',
-        color: 'white',
-        font: 'inherit',
-        border: '1px solid blue',
-        padding: '8px',
-        cursor: 'pointer',
-        ':hover': {
-          backgroundColor: 'lightgreen',
-          color: 'black'
-        }
-      }
-
 
       let persons = null;
 
@@ -76,11 +76,6 @@ class App extends Component {
             })}
           </div>
         )
-        styles.backgroundColor = 'red';
-        styles[':hover'] = {
-          backgroundColor: 'salmon',
-          color: 'black'
-        }
       }
       const deleteLetter = (index) => {
         const text = this.state.userInput.split('');
@@ -105,10 +100,10 @@ class App extends Component {
       
 
       return (
-        <StyleRoot>
+        
           <div className="App">
             <h1 className={classes.join(' ')}>Welcome</h1>
-            <button style={styles} onClick={this.toggleHandler}>Show/Hide</button>
+            <StyledButton alt={this.state.showPersons} onClick={this.toggleHandler}>Show/Hide</StyledButton>
             {persons}
             <label>Enter Text</label>
             <input 
@@ -122,10 +117,10 @@ class App extends Component {
             />
             {charList}
           </div>
-        </StyleRoot>
+      
       );
     }
 }
 
-export default Radium(App);
+export default App;
 
