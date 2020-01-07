@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Radium from 'radium';
 import Person from './Person/Person';
 import ValidationComponent from './components/ValidationComponent';
 import CharComponent from './components/CharComponent';
@@ -17,7 +18,7 @@ class App extends Component {
     };
       deletePersonHandler = (personIndex) => {
         const persons = [...this.state.persons];
-        persons.slice(personIndex, 1)
+        persons.splice(personIndex, 1)
         this.setState({persons: persons})
       }
         
@@ -46,11 +47,16 @@ class App extends Component {
 
     render() {
       const styles = {
-        background: 'white',
+        backgroundColor: 'green',
+        color: 'white',
         font: 'inherit',
         border: '1px solid blue',
         padding: '8px',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        ':hover': {
+          backgroundColor: 'lightgreen',
+          color: 'black'
+        }
       }
 
 
@@ -69,11 +75,16 @@ class App extends Component {
               />
             })}
           </div>
-        ) 
+        )
+        styles.backgroundColor = 'red';
+        styles[':hover'] = {
+          backgroundColor: 'salmon',
+          color: 'black'
+        }
       }
       const deleteLetter = (index) => {
         const text = this.state.userInput.split('');
-        text.splice(index, 1);
+        text.slice(index, 1);
         const newText = text.join('')
         this.setState({userInput: newText})
       }
@@ -84,8 +95,18 @@ class App extends Component {
                 clicked={() => deleteLetter(index)}/>
       });
 
+      let classes = [];
+      if (this.state.persons.length <= 2) {
+        classes.push('red')
+      }
+      if (this.state.persons.length <= 1) {
+        classes.push('size')
+      }
+      
+
       return (
         <div className="App">
+          <h1 className={classes.join(' ')}>Welcome</h1>
           <button style={styles} onClick={this.toggleHandler}>Show/Hide</button>
           {persons}
           <label>Enter Text</label>
@@ -104,5 +125,5 @@ class App extends Component {
     }
 }
 
-export default App;
+export default Radium(App);
 

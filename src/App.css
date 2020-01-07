@@ -2,3 +2,10 @@
   text-align: center;
 }
 
+.red {
+  color: red;
+}
+
+.size {
+  font-size: 4rem;
+}
