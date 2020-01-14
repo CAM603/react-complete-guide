@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Radium, { StyleRoot } from 'radium';
-import Person from '../components/Persons/Person/Person';
 import ValidationComponent from '../components/ValidationComponent';
 import CharComponent from '../components/CharComponent';
 
@@ -9,6 +8,10 @@ import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    console.log('App.js constructor')
+  }
     state = {
         persons: [
           { id: 0, name: 'Max', age: 28},
@@ -18,37 +21,42 @@ class App extends Component {
         showPersons: true,
         userInput: ''
     };
-      deletePersonHandler = (personIndex) => {
-        const persons = [...this.state.persons];
-        persons.splice(personIndex, 1)
-        this.setState({persons: persons})
-      }
-        
-      nameChangeHandler = (event, id) => {
-        const personIndex = this.state.persons.findIndex(p => p.id === id)
-        console.log(personIndex)
-        const person = {...this.state.persons[personIndex]};
+    
+    static getDerivedStateFromProps(props, state) {
+      console.log('GetDerivedFromState', props)
+      return state
+    }
+    componentDidMount(){
+      console.log('mounted')
+    }
+    deletePersonHandler = (personIndex) => {
+      const persons = [...this.state.persons];
+      persons.splice(personIndex, 1)
+      this.setState({persons: persons})
+    }
+    nameChangeHandler = (event, id) => {
+      const personIndex = this.state.persons.findIndex(p => p.id === id)
+      console.log(personIndex)
+      const person = {...this.state.persons[personIndex]};
 
-        person.name = event.target.value;
+      person.name = event.target.value;
 
-        const persons = [...this.state.persons];
-        persons[personIndex] = person
+      const persons = [...this.state.persons];
+      persons[personIndex] = person
 
-        this.setState( {persons: persons} )
-      }
-
-      toggleHandler = () => {
-        let toggle = this.state.showPersons;
-        this.setState({ showPersons: !toggle})
-      }
-
-      inputChangeHandler = (event) => {
-        
-        this.setState({userInput: event.target.value})
-      }
-
-    render() {
+      this.setState( {persons: persons} )
+    }
+    toggleHandler = () => {
+      let toggle = this.state.showPersons;
+      this.setState({ showPersons: !toggle})
+    }
+    inputChangeHandler = (event) => {
       
+      this.setState({userInput: event.target.value})
+    }
+        
+    render() {
+      console.log('render')
       let persons = null;
 
       if (this.state.showPersons) {

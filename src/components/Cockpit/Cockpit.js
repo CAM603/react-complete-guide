@@ -1,7 +1,5 @@
 import React from 'react';
 
-import classes from './Cockpit.css';
-
 const Cockpit = (props) => {
     const classes = [];
     let btnClass = '';
