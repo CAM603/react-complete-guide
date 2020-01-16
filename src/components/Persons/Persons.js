@@ -3,15 +3,15 @@ import React, { Component } from 'react';
 import Person from './Person/Person';
 
 class Persons extends Component {
-    static getDerivedStateFromProps(props, state) {
-        return state;
-    }
-    shouldComponentUpdate(nextProps, nextState) {
-        return true;
-    }
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-        return null;
-    }
+    // static getDerivedStateFromProps(props, state) {
+    //     return state;
+    // }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     return true;
+    // }
+    // getSnapshotBeforeUpdate(prevProps, prevState) {
+    //     return null;
+    // }
     render(){
         return this.props.persons.map((person, index) => {
             return <Person 

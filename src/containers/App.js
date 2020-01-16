@@ -6,6 +6,7 @@ import CharComponent from '../components/CharComponent';
 import './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import WithClass from '../HOC/WithClass';
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class App extends Component {
           { id: 2, name: 'Kaylyn', age: 21}
         ],
         showPersons: true,
-        userInput: ''
+        userInput: '',
+        changeCounter: 0
     };
     
     static getDerivedStateFromProps(props, state) {
@@ -36,7 +38,7 @@ class App extends Component {
     }
     nameChangeHandler = (event, id) => {
       const personIndex = this.state.persons.findIndex(p => p.id === id)
-      console.log(personIndex)
+      
       const person = {...this.state.persons[personIndex]};
 
       person.name = event.target.value;
@@ -44,19 +46,26 @@ class App extends Component {
       const persons = [...this.state.persons];
       persons[personIndex] = person
 
-      this.setState( {persons: persons} )
+      this.setState((prevState, props) => {
+        return {
+          persons: persons,
+          changeCounter: prevState.changeCounter + 1
+        };
+      })
     }
+
     toggleHandler = () => {
       let toggle = this.state.showPersons;
       this.setState({ showPersons: !toggle})
     }
+
     inputChangeHandler = (event) => {
       
       this.setState({userInput: event.target.value})
     }
         
     render() {
-      console.log('render')
+      console.log(this.state.changeCounter)
       let persons = null;
 
       if (this.state.showPersons) {
@@ -81,7 +90,7 @@ class App extends Component {
 
       return (
         <StyleRoot>
-          <div className="App">
+          <WithClass classes="App">
             <Cockpit 
             showPersons={this.state.showPersons}
             persons={this.state.persons}
@@ -99,7 +108,7 @@ class App extends Component {
             inputLength={this.state.userInput.length}
             />
             {charList}
-          </div>
+          </WithClass>
         </StyleRoot>
       );
     }
