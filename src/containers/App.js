@@ -7,6 +7,7 @@ import './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 import WithClass from '../HOC/WithClass';
+import AuthContext from '../components/context/auth-context';
 
 class App extends Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class App extends Component {
         ],
         showPersons: true,
         userInput: '',
-        changeCounter: 0
+        changeCounter: 0,
+        authenticated: false
     };
     
     static getDerivedStateFromProps(props, state) {
@@ -91,23 +93,28 @@ class App extends Component {
       return (
         <StyleRoot>
           <WithClass classes="App">
-            <Cockpit 
-            showPersons={this.state.showPersons}
-            persons={this.state.persons}
-            clicked={this.toggleHandler}
-            />
-            {persons}
-            <label>Enter Text</label>
-            <input 
-            type="text"
-            value={this.state.userInput}
-            onChange={this.inputChangeHandler}
-            />
-            <p>{this.state.userInput}</p>
-            <ValidationComponent
-            inputLength={this.state.userInput.length}
-            />
-            {charList}
+            <AuthContext.Provider value={{
+              authenticated: this.state.authenticated,
+              login: this.loginHandler
+              }}>
+              <Cockpit 
+              showPersons={this.state.showPersons}
+              persons={this.state.persons}
+              clicked={this.toggleHandler}
+              />
+              {persons}
+              <label>Enter Text</label>
+              <input 
+              type="text"
+              value={this.state.userInput}
+              onChange={this.inputChangeHandler}
+              />
+              <p>{this.state.userInput}</p>
+              <ValidationComponent
+              inputLength={this.state.userInput.length}
+              />
+              {charList}
+            </AuthContext.Provider>
           </WithClass>
         </StyleRoot>
       );
